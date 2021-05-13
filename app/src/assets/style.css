@@ -1,0 +1,124 @@
+/***menu***/
+
+h1{
+    position: relative;
+    padding-top: 5px;
+    padding-left: 20px;
+}
+
+.menu-title{
+    margin-left: 150px;
+}
+
+.logout{
+    font-size: 1em;
+    border-radius: 5px;
+    background-color: lightcoral;
+    padding: 15px 18px;
+    text-decoration: none;
+    color: white;
+}
+
+.btn {
+    font-size: 1.375em;
+    border-radius: 5px;
+    background-color: lightcoral;
+    padding: 18px 32px;
+    text-decoration: none;
+    color: white;
+  }
+
+.container{
+    display:flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 70vh;
+}
+
+.right .item{
+    display: flex;
+    float: right;
+    margin-right: 30px;
+}
+
+/* 社員一覧画面と社員基本情報 */
+caption {
+    padding: 10px;
+    caption-side: top;
+  }
+  
+  table {
+      border-collapse: collapse;
+      width: 800px;
+      height: 50px;
+      margin-left: 30px;
+    }
+    table th, table td {
+      border: solid 1px black;
+      padding: 7px 5px;
+    }
+  
+    .photo {
+      float:left;
+    }
+
+    .info_employee {
+      float:right;
+      width: auto;
+      /* width:1000px; */
+    }
+
+
+/* 研修基本情報の横並び */
+.box{
+    /* list-style: none; */
+    /* width: auto; */
+    float: left;
+    margin-left: 50px;
+    margin-right: 100px;
+    margin-top: 25px;
+    margin-bottom: 100px;
+}
+
+.search_result{
+    clear: both;
+    width: auto;
+}
+
+.result_training > table{
+  width: 600px;
+  /* margin-left: 100px ; */
+}
+
+.btn-border {
+        display: inline-block;
+        max-width: 180px;
+        text-align: left;
+        border: 2px solid lightcoral;
+        font-size: 16px;
+        color: lightcoral;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 8px 16px;
+        border-radius: 4px;
+        transition: .4s;
+      }
+  
+.btn-border:hover {
+        background-color: lightcoral;
+        border-color: lightcoral;
+        color: #FFF;
+      }
+
+.search_result > table {
+  width: auto;
+}
+
+.attend_lists > table {
+  width: 1200px;
+  margin-left: 100px;
+}
+
+.margin-left {
+  margin-left: 30px;
+}

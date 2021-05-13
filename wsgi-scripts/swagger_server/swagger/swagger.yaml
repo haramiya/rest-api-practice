@@ -1,0 +1,802 @@
+openapi: 3.0.0
+info:
+  title: オムライス API
+  description: This is a Talent Management System API server.
+  contact:
+    name: オムライス
+    email: miyahara.44112@XXXXX.co.jp
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://172.22.128.114
+paths:
+  /employees/search:
+    post:
+      tags:
+        - employee
+      summary: Search employee' results
+      description: Get employee's search results
+      operationId: get_employees_search_results
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/body"
+            examples:
+              example_ALLSearchCondition:
+                value:
+                  employeeId: s44112
+                  employeeName: 宮原祥太
+                  dept:
+                    - BI2_旅行BI部
+                  joiningYearFrom: {}
+                  joiningYearTo: {}
+                  title:
+                    - "9"
+                  grade:
+                    - B2
+                  recruitmentClass:
+                    - "1"
+                  leaveFlg:
+                    - "1"
+                  gender:
+                    - "1"
+                  birthdateFrom: {}
+                  birthdateTo: {}
+              example_PartSearchCondition:
+                value:
+                  employeeId: s44112
+                  employeeName: 宮原祥太
+                  title:
+                    - "9"
+                  grade:
+                    - B2
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employees"
+              examples:
+                example-1:
+                  value:
+                    - employeeId: s44112
+                      employeeName: 宮原祥太
+                      joiningYear: {}
+                      title:
+                        - "9"
+                      grade:
+                        - B2
+                      recruitmentClass:
+                        - "1"
+                      gender:
+                        - "1"
+                      birthdate: {}
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.employee_controller
+  /employees/{employeeId}:
+    get:
+      tags:
+        - employee
+      summary: Get an employee info
+      description: Get an employee info
+      operationId: get_employees_employee_id
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maxLength: 7
+            minLength: 1
+            type: string
+            example: s44112
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeInfo"
+              examples:
+                example-1:
+                  value:
+                    employees:
+                      - employeeId: s44112
+                        employeeName: 宮原祥太
+                        joiningYear: {}
+                        title: "9"
+                        grade: B2
+                        recruitmentClass: "1"
+                        gender: "1"
+                        birthdate: {}
+                    employeesAddress:
+                      company: 株式会社XXXXX
+                      mailAddress: test@XXX.com
+                    attendTrainings:
+                      - trainingName: データハンドリング研修
+                        startDate: {}
+                        satisfactionScore: 5
+                    certificationInfo:
+                      - certificationId: c000001
+                        certificationName: 基本情報技術者試験
+                        summary: データハンドリングの基礎を学ぶ研修
+                        getDate: {}
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.employee_controller
+  /trainings/search:
+    post:
+      tags:
+        - training
+      summary: Search employee' results
+      description: Get training search results
+      operationId: get_trainings_search_results
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/body_1"
+            examples:
+              example-1:
+                value:
+                  trainingName: データハンドリング研修
+                  trainingClass:
+                    - "1"
+                  skillClass:
+                    - "0"
+                  ITLevel:
+                    - "1"
+                  recruitmentNumFrom: 0
+                  recruitmentNumTo: 100
+                  newFlg:
+                    - "2"
+                  selectionFlg:
+                    - "2"
+                  startDate: {}
+                  endDate: {}
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trainings"
+              examples:
+                example-1:
+                  value:
+                    - trainingId: t000001
+                      trainingName: データハンドリング研修
+                      trainingClass:
+                        - "1"
+                      ITLevel:
+                        - "1"
+                      recruitmentNum: 30
+                      participationNum: 15
+                      newFlg:
+                        - "2"
+                      selectionFlg:
+                        - "2"
+                      startDate: {}
+                      endDate: {}
+                      skillClass:
+                        - "0"
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.training_controller
+  /trainings/{trainingId}:
+    get:
+      tags:
+        - training
+      summary: Get a training info
+      description: Get a training info
+      operationId: get_trainings_training_id
+      parameters:
+        - name: trainingId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: t000002
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrainingInfo"
+              examples:
+                example-1:
+                  value:
+                    trainings:
+                      - trainingId: t000001
+                        trainingName: データハンドリング研修
+                        trainingClass:
+                          - "1"
+                        ITLevel:
+                          - "1"
+                        recruitmentNum: 30
+                        participationNum: 15
+                        newFlg:
+                          - "2"
+                        selectionFlg:
+                          - "2"
+                        startDate: {}
+                        endDate: {}
+                        skillClass:
+                          - "0"
+                    trainingInfo:
+                      - employeeId: s44112
+                        employeeName: 宮原祥太
+                        joiningYear: {}
+                        title: "9"
+                        grade: B2
+                        recruitmentClass: "1"
+                        gender: "1"
+                        birthdate: {}
+                        attendanceState: "1"
+                        satisfactionScore: 5
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.training_controller
+    post:
+      tags:
+        - training
+      summary: Create a training info
+      description: Create a training info
+      operationId: post_trainings_training_id
+      parameters:
+        - name: trainingId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: t000002
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/body_2"
+            examples:
+              example-1:
+                value:
+                  trainingId: t000002
+                  trainingName: 基本情報技術者研修
+                  trainingClass: １
+                  skillClass: １
+                  ITLevel: "0"
+                  summary: 基本情報技術者試験取得を目指した研修
+                  recruitmentNum: "15"
+                  participationNum: "14"
+                  remarks: 対象者像は「高度 IT 人材となるために必要な基本的知識・技能をもち，実践的な活用能力を身に付けた者」
+                  startDate: {}
+                  endDate: {}
+                  numOfTimes: "5"
+                  timePerSession: "1.5"
+                  newTrainingFlg: "1"
+                  selectionFlg: "2"
+                  conditions: 基本情報技術者試験を取得していない
+                  company: 株式会社XXXXXXXXXX
+                  teacher: S木先生
+      responses:
+        "200":
+          description: OK
+        "201":
+          description: Created
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "405":
+          description: Method Not Allowed
+      x-openapi-router-controller: swagger_server.controllers.training_controller
+    delete:
+      tags:
+        - training
+      summary: Delete a training row
+      description: Delete a training row
+      operationId: delete_trainings_training_id
+      parameters:
+        - name: trainingId
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: t000002
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: No Content
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.training_controller
+  /trainings:
+    get:
+      tags:
+        - training
+      summary: Get All trainings
+      description: Get Trainings Lists
+      operationId: get_trainings
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trainings"
+              examples:
+                example-1:
+                  value:
+                    - trainingId: t000001
+                      trainingName: データハンドリング研修
+                      trainingClass: "1"
+                      ITLevel: "1"
+                      recruitmentNum: 30
+                      participationNum: 15
+                      newFlg: "2"
+                      selectionFlg: "2"
+                      startDate: {}
+                      endDate: {}
+                      skillClass: "0"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.training_controller
+  /employees:
+    get:
+      tags:
+        - employee
+      summary: Get All employees
+      description: Get Employees Lists
+      operationId: get_employees
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Employees"
+              examples:
+                example-1:
+                  value:
+                    - employeeId: s44112
+                      employeeName: 宮原祥太
+                      joiningYear: {}
+                      title: "9"
+                      grade: B2
+                      recruitmentClass: "1"
+                      gender: "1"
+                      birthdate: {}
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+      x-openapi-router-controller: swagger_server.controllers.employee_controller
+components:
+  schemas:
+    Employees:
+      uniqueItems: true
+      type: array
+      items:
+        $ref: "#/components/schemas/Employees_inner"
+      x-examples: {}
+    Trainings:
+      uniqueItems: true
+      type: array
+      items:
+        $ref: "#/components/schemas/Trainings_inner"
+      x-examples: {}
+    EmployeeInfo:
+      type: object
+      properties:
+        employees:
+          $ref: "#/components/schemas/Employees"
+        employeesAddress:
+          $ref: "#/components/schemas/EmployeeInfo_employeesAddress"
+        attendTrainings:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmployeeInfo_attendTrainings"
+        certificationInfo:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmployeeInfo_certificationInfo"
+      example:
+        certificationInfo:
+          - summary: summary
+            certificationId: certificationId
+            certificationName: certificationName
+            getDate: {}
+          - summary: summary
+            certificationId: certificationId
+            certificationName: certificationName
+            getDate: {}
+        employeesAddress:
+          mailAddress: mailAddress
+          company: company
+        employees:
+          - joiningYear: joiningYear
+            employeeName: employeeName
+            birthdate: {}
+            gender: gender
+            grade: grade
+            recruitmentClass: recruitmentClass
+            employeeId: employeeId
+            title: title
+          - joiningYear: joiningYear
+            employeeName: employeeName
+            birthdate: {}
+            gender: gender
+            grade: grade
+            recruitmentClass: recruitmentClass
+            employeeId: employeeId
+            title: title
+        attendTrainings:
+          - trainingName: trainingName
+            satisfactionScore: 0.8008281904610115
+            startDate: {}
+          - trainingName: trainingName
+            satisfactionScore: 0.8008281904610115
+            startDate: {}
+    TrainingInfo:
+      type: object
+      properties:
+        Trainings:
+          $ref: "#/components/schemas/body_2"
+        TrainingInfo:
+          type: array
+          items:
+            $ref: "#/components/schemas/TrainingInfo_TrainingInfo"
+      example:
+        TrainingInfo:
+          joiningYear: joiningYear
+          employeeName: employeeName
+          birthdate: birthdate
+          gender: gender
+          grade: grade
+          recruitmentClass: recruitmentClass
+          employeeId: employeeId
+          title: title
+        Employees:
+          - joiningYear: joiningYear
+            employeeName: employeeName
+            birthdate: {}
+            gender: gender
+            grade: grade
+            recruitmentClass: recruitmentClass
+            employeeId: employeeId
+            title: title
+          - joiningYear: joiningYear
+            employeeName: employeeName
+            birthdate: {}
+            gender: gender
+            grade: grade
+            recruitmentClass: recruitmentClass
+            employeeId: employeeId
+            title: title
+        Trainings:
+          - participationNum: 6.027456183070403
+            selectionFlg: selectionFlg
+            trainingId: trainingId
+            trainingName: trainingName
+            ITLevel: ITLevel
+            recruitmentNum: 0.8008281904610115
+            endDate: {}
+            skillClass: skillClass
+            trainingClass: trainingClass
+            newFlg: newFlg
+            startDate: {}
+          - participationNum: 6.027456183070403
+            selectionFlg: selectionFlg
+            trainingId: trainingId
+            trainingName: trainingName
+            ITLevel: ITLevel
+            recruitmentNum: 0.8008281904610115
+            endDate: {}
+            skillClass: skillClass
+            trainingClass: trainingClass
+            newFlg: newFlg
+            startDate: {}
+      x-examples: {}
+    body:
+      type: object
+      properties:
+        employeeId:
+          type: string
+        employeeName:
+          type: string
+        dept:
+          type: array
+          items:
+            type: string
+        joiningYearFrom:
+          type: string
+          format: date
+        joiningYearTo:
+          type: string
+          format: date
+        title:
+          type: array
+          items:
+            type: string
+        grade:
+          type: array
+          items:
+            type: string
+        recruitmentClass:
+          type: array
+          items:
+            type: string
+        leaveFlg:
+          type: array
+          items:
+            type: string
+        gender:
+          type: array
+          items:
+            type: string
+        birthdateFrom:
+          type: string
+          format: date
+        birthdateTo:
+          type: string
+          format: date
+    body_1:
+      type: object
+      properties:
+        trainingName:
+          type: string
+        trainingClass:
+          type: array
+          items:
+            type: string
+        skillClass:
+          type: array
+          items:
+            type: string
+        ITLevel:
+          type: array
+          items:
+            type: string
+        recruitmentNumFrom:
+          type: number
+        recruitmentNumTo:
+          type: number
+        newFlg:
+          type: array
+          items:
+            type: string
+        selectionFlg:
+          type: array
+          items:
+            type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+    body_2:
+      type: object
+      properties:
+        trainingId:
+          type: string
+        trainingName:
+          type: string
+        trainingClass:
+          type: string
+        skillClass:
+          type: string
+        ITLevel:
+          type: string
+        summary:
+          type: string
+        recruitmentNum:
+          type: string
+        participationNum:
+          type: string
+        remarks:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        numOfTimes:
+          type: string
+        timePerSession:
+          type: string
+        newTrainingFlg:
+          type: string
+        selectionFlg:
+          type: string
+        conditions:
+          type: string
+        company:
+          type: string
+        teacher:
+          type: string
+    Employees_inner:
+      type: object
+      properties:
+        employeeId:
+          type: string
+        employeeName:
+          type: string
+        dept:
+          type: string
+        joiningYear:
+          type: string
+          format: date
+        title:
+          type: string
+        grade:
+          type: string
+        recruitmentClass:
+          type: string
+        gender:
+          type: string
+        birthdate:
+          type: string
+          format: date
+      example:
+        joiningYear: joiningYear
+        employeeName: employeeName
+        birthdate: {}
+        gender: gender
+        grade: grade
+        recruitmentClass: recruitmentClass
+        employeeId: employeeId
+        title: title
+    Trainings_inner:
+      type: object
+      properties:
+        trainingId:
+          type: string
+        trainingName:
+          type: string
+        trainingClass:
+          type: string
+        ITLevel:
+          type: string
+        recruitmentNum:
+          type: number
+        participationNum:
+          type: number
+        newFlg:
+          type: string
+        selectionFlg:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        skillClass:
+          type: string
+      example:
+        participationNum: 6.027456183070403
+        selectionFlg: selectionFlg
+        trainingId: trainingId
+        trainingName: trainingName
+        ITLevel: ITLevel
+        recruitmentNum: 0.8008281904610115
+        endDate: {}
+        skillClass: skillClass
+        trainingClass: trainingClass
+        newFlg: newFlg
+        startDate: {}
+    EmployeeInfo_employeesAddress:
+      type: object
+      properties:
+        company:
+          type: string
+        mailAddress:
+          type: string
+      example:
+        mailAddress: mailAddress
+        company: company
+    EmployeeInfo_attendTrainings:
+      type: object
+      properties:
+        trainingName:
+          type: string
+        startDate:
+          type: string
+          format: date
+        attendance_state:
+          type: string
+        satisfactionScore:
+          type: number
+      example:
+        trainingName: trainingName
+        attendance_state: "1"
+        satisfactionScore: 0.8008281904610115
+        startDate: {}
+    EmployeeInfo_certificationInfo:
+      type: object
+      properties:
+        certificationId:
+          type: string
+        certificationName:
+          type: string
+        summary:
+          type: string
+        getDate:
+          type: string
+          format: date
+      example:
+        summary: summary
+        certificationId: certificationId
+        certificationName: certificationName
+        getDate: {}
+    TrainingInfo_TrainingInfo:
+      type: object
+      properties:
+        employeeId:
+          type: string
+        employeeName:
+          type: string
+        joiningYear:
+          type: string
+          format: date
+        title:
+          type: string
+        grade:
+          type: string
+        recruitmentClass:
+          type: string
+        gender:
+          type: string
+        birthdate:
+          type: string
+        satisfaction_score:
+          type: number
+        attendance_state:
+          type: string
+      example:
+        joiningYear: joiningYear
+        employeeName: employeeName
+        birthdate: birthdate
+        gender: gender
+        grade: grade
+        recruitmentClass: recruitmentClass
+        employeeId: employeeId
+        title: title
+        attendanceState: attendanceState
+        satisfactionScore: satisfactionScore
+  responses: {}
+  parameters: {}
+  examples: {}
+  securitySchemes: {}
